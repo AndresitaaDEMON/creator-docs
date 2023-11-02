@@ -1,323 +1,201 @@
----
-title: Tables
-description: Tables can store multiple values of any type that isn't nil, including booleans, numbers, strings, functions, and other tables.
----
 
-The **table** data type can store multiple values of any type that isn't `nil`, including [booleans](./booleans.md), [numbers](./numbers.md), [strings](./strings.md), [functions](./functions.md), and other tables. Construct tables with curly braces (`{}`):
 
-```lua
--- Construct an empty table assigned to variable "t"
-local t = {}
-print(t) -- {}
-```
-
-You can use a table as an [array](#arrays) or [dictionary](#dictionaries). Arrays use an ordered list of numbers as indices, but dictionaries can have numbers, strings, and objects as indices.
-
-For more information on built-in functions for working with tables, see the `Library.table` library.
-
-## Arrays
-
-An **array** is an ordered list of values. Arrays are useful for storing collections of data, such as a group of players with special permissions.
-
-### Creating Arrays
-
-To create an array using a Luau table, declare the values in sequential order, separated by commas.
-
-```lua
--- Construct an array with three items
-local testArray = {"A string", 3.14159, workspace.Camera}
-print(testArray)
-```
-
-### Reading from Arrays
-
-To read from an array, add a pair of square brackets after its reference and specify the index number of the element inside (`[pos]`):
-
-```lua
--- Construct an array with three items
-local testArray = {"A string", 3.14159, workspace.Camera}
-
-print(testArray[1]) -- A string
-print(testArray[2]) -- 3.14159
-print(testArray[3]) -- Camera
-```
-
-<Alert severity="warning">
-Unlike some languages, Luau uses 1-based indexing for arrays, so the first item in the array is <InlineCode>[1]</InlineCode>, not <InlineCode>[0]</InlineCode>.
-</Alert>
-
-### Writing to Arrays
-
-To define or rewrite the value of an array at an index, declare the index number in square brackets (`[index]`) followed by `=` and the value:
-
-```lua
-local testArray = {"A string", 3.14159, workspace.Camera}
-
-testArray[2] = 12345
-testArray[4] = "New string"
-
-print(testArray[2]) --12345
-print(testArray[4]) -- New string
-```
-
-### Iterating over Arrays
-
-To iterate over an array, use the global `ipairs()` function in a `for` loop. Because the arrays have numerical indices, you can also use a numeric `for` loop from **1** to the length of the array (`#array`).
-
-```lua
-local testArray = {"A string", 3.14159, workspace.Camera, "New string"}
-
--- Loop using "ipairs()"
-for index, value in ipairs(testArray) do
-	print(index, value)
-end
-
--- Iterate using the array length operator (#)
-for index = 1, #testArray do
-	print(index, testArray[index])
-end
-
---[[ Resulting output:
-1 A string
-2 3.14159
-3 Camera
-4 New string
-1 A string
-2 3.14159
-3 Camera
-4 New string
+_______   __                  __                  __                  __  __ 
+/       \ /  |                /  |                /  |                /  |/  |
+$$$$$$$  |$$ |  ______    ____$$ |  ______        $$ |____    ______  $$ |$$ |
+$$ |__$$ |$$ | /      \  /    $$ | /      \       $$      \  /      \ $$ |$$ |
+$$    $$< $$ | $$$$$$  |/$$$$$$$ |/$$$$$$  |      $$$$$$$  | $$$$$$  |$$ |$$ |
+$$$$$$$  |$$ | /    $$ |$$ |  $$ |$$    $$ |      $$ |  $$ | /    $$ |$$ |$$ |
+$$ |__$$ |$$ |/$$$$$$$ |$$ \__$$ |$$$$$$$$/       $$ |__$$ |/$$$$$$$ |$$ |$$ |
+$$    $$/ $$ |$$    $$ |$$    $$ |$$       |      $$    $$/ $$    $$ |$$ |$$ |
+$$$$$$$/  $$/  $$$$$$$/  $$$$$$$/  $$$$$$$/       $$$$$$$/   $$$$$$$/ $$/ $$/  Exploit ( Auto block )
+By Dgegesg
+Portfoilo
+https://dgegesgportfolio.static.domains/Index.html
 ]]
-```
-
-### Inserting Items
-
-There are two built-in ways to insert an item to the **end** of an array:
-
-- Pass a reference to the array and the item value to Luau's `Library.table.insert()` function.
-- Add the new item to the array using the `array[#array+1]` syntax.
-
-```lua
-local testArray = {"A string", 3.14159}
-
-table.insert(testArray, "New string")
-testArray[#testArray+1] = "Another new string"
-
-print(testArray[3]) -- New string
-print(testArray[4]) -- Another new string
-```
-
-To insert an item between the start and end of an array, include a position value as the second argument of `Library.table.insert()`. This inserts the new item and pushes the following items up one index position.
-
-```lua
-local testArray = {"First item", "Next item"}
-
-table.insert(testArray, 2, "NEW ITEM #2")
-
-print(testArray[1]) -- First item
-print(testArray[2]) -- NEW ITEM #2
-print(testArray[3]) -- Next item
-```
-
-### Removing Items
-
-To remove an item from an array, use `Library.table.remove()`. This removes the item at the specified position and moves any following items back one index position.
-
-```lua
-local testArray = {"First item", "Next item", "Last item"}
-
-table.remove(testArray, 2)
-
-print(testArray[1]) -- First item
-print(testArray[2]) -- Last item
-```
-
-## Dictionaries
-
-Dictionaries are an extension of arrays. Dictionaries store a set of key-value pairs, where the keys can be any number, string, or object.
-
-### Creating Dictionaries
-
-To create a dictionary table, define each **key** followed by `=` and the **value**. Separate each key-value pair with a comma:
-
-```lua
-local testDictionary = {
-	FruitName = "Lemon",
-	FruitColor = "Yellow",
-	Sour = true
-}
-```
-
-The keys for dictionaries can be numbers, strings, and objects. For example, a key may also be an `Class.Instance`. To use objects as keys, declare the key in square brackets (`[key]`):
-
-```lua
-local part = Instance.new("Part")
-
-local testDictionary = {
-	PartType = "Block",
-	[part] = true
-}
-```
-
-### Reading from Dictionaries
-
-To read from a dictionary, add a pair of brackets after its reference and specify the key name. Directly reference a string key using quotes (`["key"]`) or use a variable value (`[key]`).
-
-```lua
-local part = Instance.new("Part")
-
-local testDictionary = {
-	PartType = "Block",
-	[part] = true
-}
--- Include quotes for string keys
-print(testDictionary["PartType"]) -- Block
--- Omit quotes for non-string keys
-print(testDictionary[part]) -- true
-```
-
-### Writing to Dictionaries
-
-To define or rewrite the value of a new or existing dictionary key, declare the key name in brackets (`[key]`) followed by `=` and the value:
-
-```lua
-local testDictionary = {
-	FruitName = "Lemon",
-	Sour = true
-}
-
--- Change value of existing keys
-testDictionary["FruitName"] = "Cherry"
-testDictionary["Sour"] = false
-
--- Insert new key-value pair
-testDictionary["FruitCount"] = 10
-
-print(testDictionary["FruitName"]) -- Cherry
-print(testDictionary["Sour"]) -- false
-print(testDictionary["FruitCount"]) -- 10
-```
-
-### Iterating over Dictionaries
-
-To iterate over a dictionary, use the global `pairs()` function in a `for` loop:
-
-```lua
-local testDictionary = {
-	FruitName = "Lemon",
-	FruitColor = "Yellow",
-	Sour = true
-}
-
-for key, value in pairs(testDictionary) do
-	print(key, value)
+local w:number,rep,plr,run,p=wait,game.ReplicatedStorage,game.Players.LocalPlayer or game.Players.PlayerAdded:Wait(),game["Run Service"],{}
+function findfistchild(i:'instance',s:string)for _,v in i:GetChildren()do if(v.Name==s)then return v end run.RenderStepped:Wait(0) end return false end
+function Create(d,p)
+        local c=Instance.new(d)
+        for i,v in p do c[i]=v run.RenderStepped:Wait(0.02) end
+        return c
 end
-
---[[ Resulting output:
-FruitName Lemon
-Sour true
-FruitColor Yellow
-]]
-```
-
-<Alert severity="warning">
-Unlike using <InlineCode>ipairs()</InlineCode> on an array, using <InlineCode>pairs()</InlineCode> on a dictionary doesn't necessarily return items in the same order that they're in the dictionary.
-</Alert>
-
-### Removing Key-value Pairs
-
-To remove or erase a key-value pair from a dictionary, set its value for a key to `nil`.
-
-```lua
-local testDictionary = {
-	FruitName = "Lemon",
-	FruitColor = "Yellow",
-	Sour = true
-}
-
-testDictionary["Sour"] = nil
-
-for key, value in pairs(testDictionary) do
-	print(key, value)
+local CoreGUI, Remote, Ball = nil, nil, nil
+repeat
+        Remote=(findfistchild(rep,'Remotes') and findfistchild(rep['Remotes'], 'ParryButtonPress')) or false
+        Ball=findfistchild(workspace,'Balls')
+until Ball and Remote
+CoreGUI = findfistchild(game, 'CoreGui') or findfistchild(plr, 'PlayerGui')
+function UI()
+        -- Main
+        p[0]=Create('ScreenGui', {['Name']=plr.AccountAge,['Parent']=CoreGUI})
+        p[1]=Create('Frame', {['Name']='Main',['Size']=UDim2.new(0.45,0,0.451,0),['BackgroundColor3']=Color3.new(0.0666667, 0.0666667, 0.0666667),['Parent']=p[0]})
+        Create('UIAspectRatioConstraint',{['Name']=CoreGUI['Name'],['AspectRatio']=1.456,['Parent']=p[1]})
+        p[2]=Create('Frame',{['Name']='Ball',['BackgroundColor3']=Color3.new(0.196078, 0.196078, 0.196078),['Position']=UDim2.new(0.016,0,0.229,0),['Size']=UDim2.new(0.398,0,0.721,0),['Parent']=p[1]})
+ 
+ 
+ 
+ 
+        -- Sub
+        Create('UICorner',{['Name']=' ',['CornerRadius']=UDim.new(0.05,0),['Parent']=p[1]})
+        Create('UICorner',{['Name']=' ',['CornerRadius']=UDim.new(0.05,0),['Parent']=p[2]})
+        Create('UICorner',{['Name']=' ',['CornerRadius']=UDim.new(0.05,0),['Parent']=p[3]})
+        Create('UICorner',{['Name']=' ',['CornerRadius']=UDim.new(0.05,0),['Parent']=p[4]})
+        Create('Frame',{['Name']=' ',['BackgroundColor3']=Color3.new(1, 1, 1),['Size']=UDim2.new(1,0,0.141,0),['Position']=UDim2.new(0,0,0.061,0),['BorderSizePixel']=0,['Parent']=p[1]})
+        Create('Frame',{['Name']=' ',['BackgroundColor3']=Color3.new(0, 0, 0),['Size']=UDim2.new(0.016,0,0.118,0),['Position']=UDim2.new(0.016,0,0.073,0),['BorderSizePixel']=0,['Parent']=p[1]})
+        Create('TextLabel',{['Name']=' ',['BackgroundTransparency']=1,['RichText']=true,['Text']=`<b>{CoreGUI['Name']} [ID:{p[0]['Name']}]</b>`,['Position']=UDim2.new(0.052,0,0.103,0),['Size']=UDim2.new(0.891,0,0.057,0),['TextXAlignment']=Enum.TextXAlignment.Left,['TextScaled']=true,['TextWrapped']=true,['Parent']=p[1]})
+ 
+ 
+        -- Sys
+        p[5]=Create('TextLabel',{['Name']=' ',['TextColor3']=Color3.new(1,1,1),['BackgroundTransparency']=1,['RichText']=true,['Text']=`<b>Ball [ID:?]</b>`,['Position']=UDim2.new(0.031,0,0.271,0),['Size']=UDim2.new(0.351,0,0.069,0),['TextScaled']=true,['TextWrapped']=true,['Parent']=p[1]})
+        p[6]=Create('TextLabel',{['Name']=' ',['TextColor3']=Color3.new(1,1,1),['BackgroundTransparency']=1,['RichText']=true,['Text']=`<b>Distance [?]</b>`,['Position']=UDim2.new(0.031,0,0.385,0),['Size']=UDim2.new(0.351,0,0.049,0),['TextScaled']=true,['TextWrapped']=true,['Parent']=p[1]})
+        p[7]=Create('TextLabel',{['Name']=' ',['TextColor3']=Color3.new(1,1,1),['TextTransparency']=0.45,['BackgroundTransparency']=1,['RichText']=true,['Text']=`<b>...</b>`,['Position']=UDim2.new(0.031,0,0.454,0),['Size']=UDim2.new(0.351,0,0.093,0),['TextScaled']=true,['TextWrapped']=true,['Parent']=p[1]})
+        Create('TextLabel',{['Name']=' ',['TextColor3']=Color3.new(1,1,1),['BackgroundTransparency']=1,['RichText']=true,['Text']=`<b>Ball detect</b>`,['Position']=UDim2.new(0.031,0,0.565,0),['Size']=UDim2.new(0.351,0,0.049,0),['TextScaled']=true,['TextWrapped']=true,['Parent']=p[1]})
+        p[8]=Create('TextLabel',{['Name']=' ',['TextColor3']=Color3.new(1,1,1),['TextTransparency']=0.45,['BackgroundTransparency']=1,['RichText']=true,['Text']=`<b>...</b>`,['Position']=UDim2.new(0.031,0,0.621,0),['Size']=UDim2.new(0.351,0,0.093,0),['TextScaled']=true,['TextWrapped']=true,['Parent']=p[1]})
+        Create('TextLabel',{['Name']=' ',['TextColor3']=Color3.new(1,1,1),['BackgroundTransparency']=1,['RichText']=true,['Text']=`<b>Prepare block</b>`,['Position']=UDim2.new(0.031,0,0.74,0),['Size']=UDim2.new(0.351,0,0.049,0),['TextScaled']=true,['TextWrapped']=true,['Parent']=p[1]})
+        Create('TextLabel',{['Name']=' ',['TextColor3']=Color3.new(1,1,1),['BackgroundTransparency']=1,['RichText']=true,['Text']=`<b>Debug</b>`,['Position']=UDim2.new(0.451,0,0.413,0),['Size']=UDim2.new(0.492,0,0.075,0),['TextScaled']=true,['TextWrapped']=true,['Parent']=p[1]})
+        p[3]=Create('TextLabel',{['Name']=' ',['TextColor3']=Color3.new(1,1,1),['TextTransparency']=0.45,['BackgroundTransparency']=1,['RichText']=true,['Text']=`<b>cal</b>`,['Position']=UDim2.new(0.451,0,0.505,0),['Size']=UDim2.new(0.492,0,0.06,0),['TextScaled']=true,['TextWrapped']=true,['Parent']=p[1]})
+        p[4]=Create('TextLabel',{['Name']=' ',['TextColor3']=Color3.new(1,1,1),['TextTransparency']=0.45,['BackgroundTransparency']=1,['RichText']=true,['Text']=`<b>cal</b>`,['Position']=UDim2.new(0.451,0,0.565,0),['Size']=UDim2.new(0.492,0,0.06,0),['TextScaled']=true,['TextWrapped']=true,['Parent']=p[1]})
+Create('TextLabel',{['Name']=' ',['TextColor3']=Color3.new(1,1,1),['TextTransparency']=0.45,['BackgroundTransparency']=1,['RichText']=true,['Text']=`<b>cal</b>`,['Position']=UDim2.new(0.451,0,0.630,0),['Size']=UDim2.new(0.492,0,0.06,0),['TextScaled']=true,['TextWrapped']=true,['Parent']=p[1]}).Text = 'Hide interface type "/hide"'
+ 
+ 
+ 
+ 
+        p[9]=Create('TextLabel',{['Name']=' ',['TextColor3']=Color3.new(1,1,1),['TextTransparency']=0.45,['BackgroundTransparency']=1,['RichText']=true,['Text']=`<b>...</b>`,['Position']=UDim2.new(0.031,0,0.785,0),['Size']=UDim2.new(0.351,0,0.093,0),['TextScaled']=true,['TextWrapped']=true,['Parent']=p[1]})
+        p[10]=Create('Frame',{['Name']=' ',['BackgroundColor3']=Color3.new(1, 1, 1),['Size']=UDim2.new(0.024,0,0.038,0),['Position']=UDim2.new(0.097,0,0.878,0),['BorderSizePixel']=0,['Parent']=p[1]})
+        p[11]=Create('Frame',{['Name']=' ',['BackgroundColor3']=Color3.new(1, 1, 1),['Size']=UDim2.new(0.024,0,0.038,0),['Position']=UDim2.new(0.194,0,0.878,0),['BorderSizePixel']=0,['Parent']=p[1]})
+        p[12]=Create('Frame',{['Name']=' ',['BackgroundColor3']=Color3.new(1, 1, 1),['Size']=UDim2.new(0.024,0,0.038,0),['Position']=UDim2.new(0.304,0,0.878,0),['BorderSizePixel']=0,['Parent']=p[1]})
 end
---[[ Resulting output:
-FruitName Lemon
-FruitColor Yellow
-]]
-```
-
-## Tables as References
-
-If you store a table in a new variable, Luau doesn't create a copy of that table. Instead, the variable becomes a **reference**, or pointer, to the original table. Any reference to a table reflects any changes to the original table:
-
-```lua
-local originalArray = {10, 20}
-
-local arrayReference = originalArray
-
-print("Original:", originalArray[1], originalArray[2])
-print("Reference:", arrayReference[1], arrayReference[2])
-
--- Change values in original array
-originalArray[1] = 1000
-originalArray[2] = 2000
-
-print("Reference:", arrayReference[1], arrayReference[2])
-
---[[ Resulting output:
-Original: 10 20
-Reference: 10 20
-Reference: 1000 2000
-]]
-```
-
-## Cloning Tables
-
-### Shallow Clones
-
-To copy a table without any nested tables, Luau offers the `Library.table.clone()` method.
-
-```lua
-local original = {
-	key = "value",
-	engine = "Roblox",
-	playerID = 505306092
-}
-
-local clone = table.clone(original)
-```
-
-### Deep Clones
-
-To copy a more complex table with nested tables inside it, you'll need to use a recursive function similar to the following:
-
-```lua
-local function deepCopy(original)
-	local copy = {}
-	for k, v in pairs(original) do
-		if type(v) == "table" then
-			v = deepCopy(v)
-		end
-		copy[k] = v
-	end
-	return copy
+UI()
+ 
+ 
+-- Verify & Detect
+function Verify(instance)
+        return (typeof(instance)=="Instance"and instance:IsA("BasePart")and instance:IsDescendantOf(Ball)and instance:GetAttribute('realBall'))
 end
-```
-
-With the function in place, you can make a deep copy as follows:
-
-```lua
-local original = {
-	key = "value",
-	playerInfo = {
-		playerID = 505306092,
-		playerName = "PlayerName"
-	},
-	otherInfo = {
-		{
-			{1, 3, 5, 7, 9}
-		}
-	}
-}
-
-local clone = deepCopy(original)
-```
+ 
+ 
+function Detect()
+        return findfistchild(plr.Character,'Highlight')
+end
+ 
+ 
+function Block() 
+        Remote:Fire()
+        p[12].BackgroundColor3=Color3.new(1, 0.219608, 0.219608)
+        p[6].Text='<b>Distance [Block!]</b>'
+        p[7].Text='<b>Safe</b>'
+end
+local Calculate2 = 0
+-- Ball
+Ball.ChildAdded:Connect(function(instance)
+        p[8].Text="<b>No</b>"
+        if not Verify(instance) then return end
+        local Histroy={instance.Position,tick()}
+        p[11].BackgroundColor3=Color3.new(1, 0.219608, 0.219608)
+        p[5].Text=`<b>Ball [ID:{instance.Name}]</b>`
+        p[10].BackgroundColor3=Color3.new(1, 0.219608, 0.219608)
+        p[12].BackgroundColor3=Color3.new(1, 0.219608, 0.219608)
+        instance:GetPropertyChangedSignal('Position'):Connect(function()
+                if Detect() then
+                        local Calculate = (instance.Position-workspace.CurrentCamera.Focus.Position).Magnitude / (Histroy[1]-instance.Position).Magnitude
+                        if Calculate >= math.huge and not plr.Character.Humanoid.FallingDown then
+                                plr.Character.HumanoidRootPart.CFrame=instance.CFrame * CFrame.new(0,0,(instance.Velocity).Magnitude * -0.5)
+                                Block()
+plr.Character.HumanoidRootPart.Position = Vector3.new(plr.Character.HumanoidRootPart.Position.X, 500, plr.Character.HumanoidRootPart.Position.Z)
+                                p[10].BackgroundColor3=Color3.new(1, 0.219608, 0.219608)
+                        end
+                        if Calculate <= 11.2 then
+                                Block()
+                                p[10].BackgroundColor3=Color3.new(1, 0.219608, 0.219608)
+                        end
+                        p[9].Text="<b>Yes</b>"
+                        p[3].Text = (Calculate >= math.huge and "Error - Can't calculate") or Calculate
+                        p[4].Text = `Teleport request : {(Calculate >= math.huge and 'Yes') or 'No'}`
+                        p['cal']=math.floor(Calculate)
+                        p[11].BackgroundColor3=Color3.new(0.384314, 1, 0.403922)
+                        p[6].Text=`<b>Distance [{(p['cal']>=math.huge and "> ~0.1")or p['cal']}]</b>`
+                        if p['cal'] <= 30 then
+                                p[7].Text='<b>Unsafe</b>'
+                                p[10].BackgroundColor3=Color3.new(0.384314, 1, 0.403922)
+                        elseif p['cal'] >= 31 and p['cal'] <= 70 then
+                                p[7].Text='<b>Harmful</b>'
+                                p[10].BackgroundColor3=Color3.new(0.384314, 1, 0.403922)
+                        elseif p['cal'] >= 71 and p['cal'] < math.huge then
+                                p[7].Text='<b>Safe</b>'
+                        else
+                                p[7].Text='<b>Failed</b>'
+                                p[10].BackgroundColor3=Color3.new(0.666667, 0, 1)
+                        end
+ 
+ 
+                end
+                if(tick()-Histroy[2]>=1/40)then
+                        Histroy[2]=tick()
+                        Histroy[1]=instance.Position
+                        p[12].BackgroundColor3=Color3.new(0.384314, 1, 0.403922)
+                end
+                p[9].Text="<b>No</b>"
+                p[8].Text="<b>Yes</b>"
+        end)
+end)
+p[3].Text = '...'
+p[4].Text = '...'
+ 
+ 
+local UserInputService = game:GetService("UserInputService")
+ 
+ 
+local gui = p[1]
+ 
+ 
+local dragging
+local dragInput
+local dragStart
+local startPos
+ 
+ 
+local function update(input)
+        local delta = input.Position - dragStart
+        gui.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+end
+ 
+ 
+gui.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                dragging = true
+                dragStart = input.Position
+                startPos = gui.Position
+ 
+ 
+                input.Changed:Connect(function()
+                        if input.UserInputState == Enum.UserInputState.End then
+                                dragging = false
+                        end
+                end)
+        end
+end)
+ 
+ 
+gui.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+                dragInput = input
+        end
+end)
+ 
+ 
+UserInputService.InputChanged:Connect(function(input)
+        if input == dragInput and dragging then
+                update(input)
+        end
+end)
+local TCS = game:GetService("TextChatService")
+ 
+ 
+p['DeboyunceS'] = 'Yes'
+ 
+ 
+TCS.SendingMessage:Connect(function(Msg)
+    p['DeboyunceS'] = (string.lower(Msg.Text)=='/hide' and (p['DeboyunceS'] == 'Yes' and 'No') or 'Yes') or p['DeboyunceS']
+    p[0].Enabled = (p['DeboyunceS']=='Yes')
+end)
